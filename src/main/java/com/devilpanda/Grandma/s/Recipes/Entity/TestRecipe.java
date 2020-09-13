@@ -1,9 +1,9 @@
 package com.devilpanda.Grandma.s.Recipes.Entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -12,7 +12,7 @@ public class TestRecipe {
     @Id
     @GeneratedValue(generator = "increment")
     @GenericGenerator(name = "increment", strategy = "increment")
-    private int id;
+    private long recipeId;
 
     @Column(name = "name")
     private String recipeName;
@@ -20,15 +20,20 @@ public class TestRecipe {
     @Column(name = "description")
     private String recipeDescription;
 
-    @ManyToOne
+    @OneToMany(mappedBy = "recipe")
+    @JsonManagedReference
     private Set<RecipeIngredients> ingredients;
 
-    public int getId() {
-        return id;
+    @OneToMany(mappedBy = "recipe")
+    @JsonManagedReference
+    private Set<RecipeDirections> directions;
+
+    public long getRecipeId() {
+        return recipeId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setRecipeId(long id) {
+        this.recipeId = id;
     }
 
     public String getRecipeName() {
@@ -45,5 +50,13 @@ public class TestRecipe {
 
     public void setRecipeDescription(String recipeDescription) {
         this.recipeDescription = recipeDescription;
+    }
+
+    public Set<RecipeIngredients> getIngredients() {
+        return ingredients;
+    }
+
+    public void setIngredients(Set<RecipeIngredients> ingredients) {
+        this.ingredients = ingredients;
     }
 }

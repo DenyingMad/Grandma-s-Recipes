@@ -11,6 +11,6 @@ public class TestService {
     public TestRepository repository;
 
     public TestRecipe getInfo(){
-        return repository.findById(1).get();
+        return repository.findById(1L).orElse(new TestRecipe());
     }
 }
